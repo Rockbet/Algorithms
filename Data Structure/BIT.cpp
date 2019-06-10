@@ -28,9 +28,3 @@ int sum(int x){
 
     return s;
 }
-
-int main(){
-
-    return 0;
-}
-
