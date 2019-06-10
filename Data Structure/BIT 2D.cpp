@@ -23,11 +23,3 @@ int sum(int x, int y){
             s += tree[i][j];
     return s;
 }
-
-int main(){
-
-    return 0;
-}
-
-
-
