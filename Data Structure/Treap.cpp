@@ -1,6 +1,3 @@
-// Treap
-// Build in O(n) and depth is log n
-
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -65,8 +62,8 @@ bool find(node*& t, int x){
 
 void merge(node*& t, node *l, node *r){
     if(!l or !r) t = (l ? l : r);
-    if(l->p > r->p) merge(l->r, l->r, r), t=l;
-    else merge(r->l, l, r->l);
+    if(l->p > r->p) merge(l->r, l->r, r), t = l;
+    else merge(r->l, l, r->l), t = r;
     op(t);
 }
 
