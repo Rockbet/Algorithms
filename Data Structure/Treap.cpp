@@ -57,6 +57,12 @@ void op(node *t){
     t->sz = sz(t->l) + sz(t->r) + 1;
 }
 
+bool find(node*& t, int x){
+    if(!t) return false;
+    if(t->v==x) return true;
+    return find(x > t->v ? t->r : t->l, x);
+}
+
 void merge(node*& t, node *l, node *r){
     if(!l or !r) t = (l ? l : r);
     if(l->p > r->p) merge(l->r, l->r, r), t=l;
@@ -64,16 +70,16 @@ void merge(node*& t, node *l, node *r){
     op(t);
 }
 
-void split(node*& t, node *l, node *r, int v){
+void split(node *t, node*& l, node*& r, int v){
     if(!t) return void(l=r=NULL);
-    if(t->v < v) split(t->r, t->r, r, v);
-    else split(t->l, l, t->l, v);
+    if(t->v <= v) split(t->r, t->r, r, v), l = t;
+    else split(t->l, l, t->l, v), r = t;
     op(t);
 }
 
 void insert(node*& t, node *aux){
     if(!t) t = aux;
-    else if(aux->p > t->p) split(t, aux->l, aux->r, aux->v);
+    else if(aux->p > t->p) split(t, aux->l, aux->r, aux->v), t = aux;
     else insert((aux->v > t->v ? t->r : t->l), aux);
     op(t);
 }
