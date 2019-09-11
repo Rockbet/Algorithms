@@ -31,7 +31,7 @@ void build(Node *node, int l, int r){
 
     node->l = new Node(), node->r = new Node();
 
-    build(node->l, l, r);
+    build(node->l, l, mid);
     build(node->r, mid+1, r);
 
     node->v = node->l->v + node->r->v;
