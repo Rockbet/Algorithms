@@ -2,65 +2,34 @@
 // Update: (log n)
 // Query: (log n)
 
-
 #include <bits/stdc++.h>
 
 using namespace std;
 
 const int maxn = 1e5+100;
 
-int vet[maxn];
-
 struct Node{
-    int v;
-    Node *l, *r;
-
-    Node(){
-        v = 0;
-        l = r = nullptr;
-    }
+    int v = 0;
+    Node *l = this, *r = this;
 };
 
-void build(Node *node, int l, int r){
-    if(l == r){
-        node->v = vet[l];
-        return;
+Node *root[maxn];
+
+Node* update(Node *root, int l, int r, int idx, int val){
+    Node *node = new Node();
+
+    *node = *root;
+
+    int mid = (l + r) >> 1;
+
+    node->v += val;
+
+    if(l != r){
+        if(idx <= mid) node->l = update(root->l, l, mid, idx, val);
+        else node->r = update(root->r, mid+1, r, idx, val);
     }
 
-    int mid = (l+r) >> 1;
-
-    node->l = new Node(), node->r = new Node();
-
-    build(node->l, l, mid);
-    build(node->r, mid+1, r);
-
-    node->v = node->l->v + node->r->v;
-}
-
-void update(Node *prev, Node *node, int l, int r, int idx ,int val){
-    if(l == r){
-        node->v = val;
-        return;
-    }
-
-    int mid = (l+r) >> 1;
-
-    if(idx<=mid){
-        node->r = prev->r;
-
-        if(!node->l) node->l = new Node();
-
-        update(prev->l, node->l, l, mid, idx, val);
-    }
-    else{
-        node->l = prev->l;
-
-        if(!node->r) node->r = new Node();
-
-        update(prev->r, node->r, mid+1, r, idx, val);
-    }
-
-    node->v = node->l->v + node->r->v;
+    return node;
 }
 
 int query(Node *node, int tl, int tr, int l, int r){
