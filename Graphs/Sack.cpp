@@ -2,7 +2,7 @@
 //
 // Implementation of Sack (DSU on Tree)
 //
-// Time Complexity: O(n log^2 n)
+// Time Complexity: O(n log n)
 
 #include <bits/stdc++.h>
 
