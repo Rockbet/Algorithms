@@ -47,5 +47,5 @@ void sack(int u, int p, bool keep){
     if(idmax) sack(idmax, u, 1), big[idmax] = 1;
     add(u, p, 1);
     big[idmax] = 0;
-    if(!keep) add(u, p, 0);
+    if(!keep) add(u, p, -1);
 }
