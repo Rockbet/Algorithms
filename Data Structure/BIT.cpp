@@ -3,28 +3,19 @@
 // Sum: O(log n)
 
 #include <bits/stdc++.h>
-
 using namespace std;
-
-const int maxn = 1e5+10;
-
-int n, tree[maxn];
-
-void update(int x, int k){
-    while(x<=n){
-        tree[x]+=k;
-        x+=(x&-x);
+const int maxn = 2e6+10;
+struct bit{
+    int tree[maxn] = {};
+    void update(int x, int v){
+        for(; x<maxn; x+=(x&-x)) tree[x] += v;
     }
-}
-
-int sum(int x){
-
-    int s = 0;
-
-    while(x>0){
-        s+=tree[x];
-        x-=(x&-x);
+    int query(int x){
+        int ans = 0;
+        for(; x>0; x-=(x&-x)) ans += tree[x];
+        return ans;
     }
-
-    return s;
-}
+    int query(int x, int y){
+        return query(y) - query(x-1);
+    }
+};
