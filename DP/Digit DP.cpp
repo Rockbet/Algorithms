@@ -31,7 +31,7 @@ int calc(int x){
         x /= 10;
     }
     reverse(num.begin(), num.end());
-    // te amo muito
+    // te amo muito Pietra
     memset(dp, -1, sizeof dp);
     return solve(0, 0);
 }
