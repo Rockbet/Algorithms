@@ -33,6 +33,16 @@ struct Seg{
         build(2*node, l, mid), build(2*node+1, mid+1, r);
         tree[node] = join(tree[2*node], tree[2*node+1]);
     }
+    void update(int node, int l, int r, int pos, int val){
+        if(l == r){
+            tree[node] = Node(val);
+            return;
+        }
+        int mid = (l + r) >> 1;
+        if(pos <= mid) update(2*node, l, mid, pos, val);
+        else update(2*node+1, mid+1, r, pos, val);
+        tree[node] = join(tree[2*node], tree[2*node+1]);
+    }
     Node query(int node, int tl, int tr, int l, int r){
         if(tl > r or tr < l) return Node();
         if(tl >= l and tl <= r) return tree[node];
