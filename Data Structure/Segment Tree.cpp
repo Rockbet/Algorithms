@@ -45,7 +45,7 @@ struct Seg{
     }
     Node query(int node, int tl, int tr, int l, int r){
         if(tl > r or tr < l) return Node();
-        if(tl >= l and tl <= r) return tree[node];
+        if(tl >= l and tr <= r) return tree[node];
         int mid = (tl + tr) >> 1;
         Node a = query(2*node, tl, mid, l, r), b = query(2*node+1, mid+1, tr, l, r);
         return join(a, b);
