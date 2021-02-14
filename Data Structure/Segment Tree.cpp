@@ -2,74 +2,42 @@
 // Build: O(n)
 // Update: O(log n)
 // Query: O(log n)
+// Leonardo Paes
 
 #include <bits/stdc++.h>
-
 using namespace std;
-
-const int maxn = 1e5+10;
-
-int vet[maxn], tree[4*maxn];
-
-void build(int node, int l, int r){
-
-    if(l==r){
-        tree[node]=vet[l];
-        return;
+typedef long long ll;
+const int maxn = 2e5+10;
+const ll inf = 2e18;
+int v[maxn];
+struct Node{
+    ll mn;
+    Node(){
+        mn = inf;
     }
-    int mid = (l+r)>>1;
-
-    build(2*node,l,mid);
-    build(2*node+1,mid+1,r);
-
-    tree[node] = tree[2*node] + tree[2*node+1];
-}
-
-void update(int node, int tl, int tr, int idx, int v){
-
-    if(tl==tr){
-        tree[node]=v;
-        return;
+    Node(int x){
+        mn = x;
     }
-    int mid = (tl+tr)>>1;
-
-    if(tl<=idx and idx<=mid) update(2*node,tl,mid,idx,v);
-    else update(2*node+1,mid+1,tr,idx,v);
-
-    tree[node] = tree[2*node] + tree[2*node+1];
-}
-
-int query(int node, int tl, int tr, int l, int r){
-
-    if(r<tl or l>tr) return 0;
-
-    if(l<=tl and r>=tr) return tree[node];
-
-    int mid = (l+r)>>1;
-
-    return query(2*node, l, mid, l, r)+query(2*node+1, mid+1, r, l, r);
-}
-
-int main(){
-
-    int n;
-
-    cin >> n;
-
-    for(int i=1; i<=n; i++){
-        cin >> vet[i];
+};
+struct Seg{
+    Node tree[1<<19];
+    Node join(Node &a, Node &b){
+        return Node(min(a.mn, b.mn));
     }
-
-    build(1,1,n);
-
-    int q;
-
-    cin >> q;
-
-    for(int i=1; i<=q; i++){
-        // Queries
+    void build(int node, int l, int r){
+        if(l == r){
+            tree[node] = Node(v[l]);
+            return;
+        }
+        int mid = (l + r) >> 1;
+        build(2*node, l, mid), build(2*node+1, mid+1, r);
+        tree[node] = join(tree[2*node], tree[2*node+1]);
     }
-
-    return 0;
-}
-
+    Node query(int node, int tl, int tr, int l, int r){
+        if(tl > r or tr < l) return Node();
+        if(tl >= l and tl <= r) return tree[node];
+        int mid = (tl + tr) >> 1;
+        Node a = query(2*node, tl, mid, l, r), b = query(2*node+1, mid+1, tr, l, r);
+        return join(a, b);
+    }
+}seg;
