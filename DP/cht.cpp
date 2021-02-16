@@ -10,7 +10,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
-
 struct Line {
 	mutable ll p, k, m;
 	bool operator<(const Line& o) const { return k < o.k; }
