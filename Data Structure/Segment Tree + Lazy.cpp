@@ -2,93 +2,64 @@
 // Build: O(n)
 // Update: O(log n)
 // Query: O(log n)
-
+// Leonardo Paes
 
 #include <bits/stdc++.h>
-
 using namespace std;
-
-const int maxn = 1e5+10;
-
-int vet[maxn], tree[4*maxn], lazy[4*maxn];
-
-void build(int node, int l, int r){
-
-    if(l==r){
-        tree[node]=vet[l];
-        return;
+typedef long long ll;
+struct Node{
+    ll sum;
+    Node(){
+        sum = 0LL;
     }
-
-    int mid = (l+r)>>1;
-
-    build(2*node,l,mid);
-    build(2*node+1,mid+1,r);
-
-    tree[node] = tree[2*node] + tree[2*node+1];
-}
-
-void flush(int node, int l, int r){
-
-    if(!lazy[node]){
-        return;
+    Node(ll x){
+        sum = x;
     }
-
-    tree[node] += lazy[node]*(r-l+1);
-
-    if(l!=r){
-        lazy[2*node] += lazy[node];
-        lazy[2*node+1] += lazy[node];
+};
+class Seg{
+public:
+    Node join(Node &a, Node &b){
+        return Node(a.sum + b.sum);
     }
-
-    lazy[node]=0;
-}
-
-void update(int node, int tl, int tr, int l, int r, int v){
-
-    if(tl>r or l>tr)return;
-
-    flush(node,tl,tr);
-
-    if(tl>=l and tr<=r){
-        lazy[node]+=v;
-        flush(node,tl,tr);
-        return;
+    void flush(int node, int l, int r){
+        if(!lazy[node].sum) return;
+        tree[node].sum += 1LL*lazy[node].sum*(r-l+1);
+        if(l != r){
+            lazy[2*node].sum += lazy[node].sum;
+            lazy[2*node+1].sum += lazy[node].sum;
+        }
+        lazy[node].sum = 0;
     }
-
-    int mid = (tl+tr) >> 1;
-
-    update(2*node, tl, mid, l, r, v);
-    update(2*node+1, mid+1, tr, l, r, v);
-
-    tree[node] = tree[2*node] + tree[2*node+1];
-}
-
-int query(int node, int tl, int tr, int l, int r){
-
-    if(tl>r or l>tr)return 0;
-
-    flush(node,tl,tr);
-
-    if(tl>=l and tr<=r)return tree[node];
-
-    int mid = (tl+tr) >> 1;
-
-    return query(2*node, tl, mid, l, r) + query(2*node+1, mid+1, tr, l ,r);
-}
-
-int main(){
-
-    int n, q;
-
-    cin >> n >> q;
-
-    for(int i=1; i<=n; i++){
-        cin >> vet[i];
+    void build(int node, int l, int r){
+        if(l == r){
+            tree[node] = Node();
+            lazy[node] = Node();
+            return;
+        }
+        int mid = (l + r) >> 1;
+        build(2*node, l, mid), build(2*node+1, mid+1, r);
+        tree[node] = join(tree[2*node], tree[2*node+1]);
     }
-
-    build(1,1,n);
-
-    for(int i=1; i<=q; i++){
-        // Queries
+    void update(int node, int tl, int tr, int l, int r, ll val){
+        if(tl > r or tr < l) return;
+        flush(node, tl, tr);
+        if(tl >= l and tr <= r){
+            lazy[node].sum += val;
+            flush(node, tl, tr);
+            return;
+        }
+        int mid = (tl + tr) >> 1;
+        update(2*node, tl, mid, l, r, val), update(2*node+1, mid+1, tr, l, r, val);
+        tree[node] = join(tree[2*node], tree[2*node+1]);
     }
-}
+    Node query(int node, int tl, int tr, int l, int r){
+        if(tl > r or tr < l) return Node();
+        flush(node, tl, tr);
+        if(tl >= l and tr <= r) return tree[node];
+        int mid = (tl + tr) >> 1;
+        Node a = query(2*node, tl, mid, l, r), b = query(2*node+1, mid+1, tr, l, r);
+        return join(a, b);
+    }
+private:
+        Node tree[1<<19], lazy[1<<19];
+}seg;
