@@ -1,7 +1,7 @@
 // Fast Kuhn
 // O(magic)
 // Solution to https://judge.yosupo.jp/submission/75960
-// Leonardo Paes
+// Leonardo Paes 
 #include <bits/stdc++.h>
 using namespace std;
 const int maxn = 1e5+10;
