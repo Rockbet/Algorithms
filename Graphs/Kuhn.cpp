@@ -48,8 +48,6 @@ int main(){
 		}
 	}
 	cout << ans << "\n";
-	for(int i=0; i<l; i++){
-		if(~matchA[i]) cout << i << " " << matchA[i] << "\n";
-	}
+	for(int i=0; i<l; i++) if(~matchA[i]) cout << i << " " << matchA[i] << "\n";
 	return 0;
 }
