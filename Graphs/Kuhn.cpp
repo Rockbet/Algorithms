@@ -1,5 +1,5 @@
 // Fast Kuhn
-// O(magic)
+// O(n*magic)
 // Solution to https://judge.yosupo.jp/submission/75960
 // Leonardo Paes 
 #include <bits/stdc++.h>
