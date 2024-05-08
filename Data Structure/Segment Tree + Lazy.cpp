@@ -41,8 +41,8 @@ public:
         tree[node] = join(tree[2*node], tree[2*node+1]);
     }
     void update(int node, int tl, int tr, int l, int r, ll val){
-        if(tl > r or tr < l) return;
         flush(node, tl, tr);
+        if(tl > r or tr < l) return;
         if(tl >= l and tr <= r){
             lazy[node].sum += val;
             flush(node, tl, tr);
@@ -53,8 +53,8 @@ public:
         tree[node] = join(tree[2*node], tree[2*node+1]);
     }
     Node query(int node, int tl, int tr, int l, int r){
-        if(tl > r or tr < l) return Node();
         flush(node, tl, tr);
+        if(tl > r or tr < l) return Node();
         if(tl >= l and tr <= r) return tree[node];
         int mid = (tl + tr) >> 1;
         Node a = query(2*node, tl, mid, l, r), b = query(2*node+1, mid+1, tr, l, r);
