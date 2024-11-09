@@ -8,7 +8,7 @@ const int maxn = 1e5+10;
 struct DSU{
     int pai[maxn], sz[maxn];
     void init(int n){
-        for(int i=1; i<maxn; i++){
+        for(int i=1; i<=n; i++){
             pai[i] = i;
             sz[i] = 1;
         }
