@@ -6,8 +6,10 @@ using namespace std;
 const int maxn = 1e5+10;
 
 struct DSU{
-    int pai[maxn], sz[maxn];
+    vector<int> pai, sz;
     void init(int n){
+        pai.resize(n+1);
+        sz.resize(n+1);
         for(int i=1; i<=n; i++){
             pai[i] = i;
             sz[i] = 1;
