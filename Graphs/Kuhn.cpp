@@ -5,6 +5,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 const int maxn = 1e5+10;
+const int RANDOM = chrono::high_resolution_clock::now().time_since_epoch().count();
 
 vector<int> grafo[maxn];
 int matchA[maxn], matchB[maxn];
@@ -32,7 +33,11 @@ int main(){
 		cin >> u >> v;
 		grafo[u].push_back(v);
 	}
-	for(int i=0; i<l; i++) matchA[i] = -1;
+	mt19937 rng(RANDOM);
+	for(int i=0; i<l; i++){
+	    shuffle(grafo[u].begin(), grafo[u].end(), rng);
+	    matchA[i] = -1;
+	}
 	for(int i=0; i<r; i++) matchB[i] = -1;	
 	bool aux = true;
 	int ans = 0;
