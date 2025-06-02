@@ -6,7 +6,7 @@ typedef pair<int,int> pii;
 #define y second
 #define ar array
 const int maxn = 5210, mod = 998244353;
-ll nck[maxn][maxn];
+ll nck[maxn][maxn], inv[maxn];
 ll pot(ll a, ll b){
     ll res = 1;
     while(b){
@@ -16,9 +16,11 @@ ll pot(ll a, ll b){
     }
     return res;
 }
-ll inv(ll a){ return pot(a, mod-2); }
+ll invf(ll a){ return pot(a, mod-2); }
 int main(){
     ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
+    inv[1] = 1;
+    for(int i=2; i<maxn; i++) inv[i] = 1LL*(mod-mod/i)*inv[mod%i]%mod;
     nck[0][0] = 1;
     for(int i=1; i<maxn; i++){
         for(int j=0; j<=i; j++){
